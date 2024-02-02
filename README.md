@@ -16,4 +16,24 @@
         - 신규 캐릭터 생성량 비교
     * 13강 무기, 클레압 등 신규 캐릭터 육성에 도움이 되는 이벤트 진행 시 참여율
         - 신규 캐릭터 생성량 비교
-        
+
+---
+
+## 작업 환경 세팅
+
+* conda install -c conda-forge jupyterlab
+* pip install jupyterlab-night
+
+* conda install spyder-notebook -c conda-forge
+* conda install spyder-terminal -c conda-forge
+
+* pip install selenium
+* pip install beautifulsoup4
+* pip install webdriver_manager
+* pip install requests
+
+* pip install pymysql
+* pip install sqlalchemy
+
+* pip install seaborn
+* pip install dash
