@@ -190,7 +190,7 @@ def run():
             # 이스핀즈 미만 명성 절사
             if not set_fame(driver, max_fame):  
                 break
-            time.sleep(0.2) # HTML 업데이트 대기
+            time.sleep(0.2) # HTML 업데이트 대기. 짧게 해도 duplicate로 중복 제거
             
             # 5. 데이터 업데이트
             data, max_fame = scrape_characters(driver, job_name)
