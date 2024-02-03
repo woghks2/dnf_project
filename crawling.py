@@ -11,7 +11,7 @@ import os
 
 # %% [1] job code
 
-jobs_dict = {
+jobs_code = {
     "0_1": "웨펀마스터", "0_2": "소울브링어", "0_3": "버서커", "0_4": "아수라", "0_5": "검귀",  # 귀검사(남)
     "11_1": "소드마스터", "11_2": "다크템플러", "11_3": "데몬슬레이어", "11_4": "베가본드", "11_5": "블레이드",  # 귀검사(여)
     "7_1": "남넨마스터", "7_2": "남스트라이커", "7_3": "남스트리트파이터", "7_4": "남그래플러",  # 격투가(남)
@@ -155,7 +155,7 @@ def integrate_data(save_path: str, file_name: str):
     df = pd.DataFrame()
     
     # 3. 데이터 프레임 concat
-    for job,file in zip(jobs_dict.values(),csv_files):
+    for job,file in zip(jobs_code.values(),csv_files):
         data = pd.read_csv(file, encoding='utf-8-sig')
         df = pd.concat([df, data], ignore_index=True)
         print(f'{job} data is integrated')
@@ -175,7 +175,7 @@ def run():
     
     # 2. 공홈 크롤링 링크
     url = 'https://df.nexon.com/world/fame'
-    for job_id, job_name in jobs_dict.items():
+    for job_id, job_name in jobs_code.items():
         
         # 3. 직업 별 검색 조건 설정
         driver = initialize_driver(url)
