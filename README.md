@@ -19,10 +19,43 @@
 
 ---
 
+## 작업 순서
+1. 공식 홈페이지에서 닉네임/서버/이미지코드/직업/명성 정보 크롤링.
+   * 110lv 이상 모든 데이터 존재.
+   * 타 사이트들과 달리 가장 최신 정보. 캐릭터명 변경 / 모험단명 변경 파악 쉬움
+  
+2. 캐릭터 별 API 요청 -> 캐릭터 코드와 모험단 정보 필요
+   * 서버/캐릭터 이름을 넣어서 캐릭터 코유 코드 획득
+   * 캐릭터 고유 코드를 넣어서 캐릭터 코드와 모험단 정보 획득
+  
+3. 캐릭터 별 timeline 구축
+   * 일일 컨텐츠 보다 주간 컨텐츠가 중요하니 주간 단위로 정보 수집
+   * 획득한 에픽 로그를 통해서 플레이 시간대 확인
+   * 모험단 별로 캐릭터 로그를 통합해서 모험단 별 타임라인 생성
+  
+4. timeline 분석
+   * 업데이트 시기 별 active 캐릭터 수 / 유저 수 분석
+   * 컨텐츠 소모 속도에 따른 유저 수 분석
+   * 성장 이벤트에 따른 active 캐릭터 수 변화 분석
+  
+5. dashboard 만들기
+   1. 전체 현황
+       * 현재 active 유저 수 / 전월대비  active 유저 수 변화
+       * 현재 active 캐릭터 수 / 전월 대비 active 유저 수 변화
+       * 플레이 시간대 선호도
+   2. 모험단 별 현황
+       * 획득 에픽량 캘린더 히트맵
+       * 레기온 / 레이드 / 상급던전 / 특수던전 등 던전 클리어 그래프
+       * 전체 플레이 시간대와 유저 플레이 시간대 비교
+  
+
+---
+
 ## 작업 환경 세팅
 
 * conda install -c conda-forge jupyterlab
 * pip install jupyterlab-night
+* conda install -c conda-forge nodejs
 
 * conda install spyder-notebook -c conda-forge
 * conda install spyder-terminal -c conda-forge
