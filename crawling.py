@@ -152,10 +152,11 @@ def integrate_data(save_path: str, file_name: str):
     df = pd.DataFrame()
     
     # 3. 데이터 프레임 concat
-    for job,file in zip(jobs_code.values(),csv_files):
+    for jobs,file in zip(jobs_code,csv_files):
+        job_name = jobs[1]
         data = pd.read_csv(file, encoding='utf-8-sig')
         df = pd.concat([df, data], ignore_index=True)
-        print(f'{job} data is integrated')
+        print(f'{job_name} data is integrated')
     
     # 4. 데이터 프레임 저장
     df.to_csv(final_path, index=False, encoding='utf-8-sig')
@@ -167,12 +168,12 @@ def run(start_fame):
     today = datetime.now().strftime("%Y%m%d")
     base_path = BASE_PATH
     folder_name = f"data_{today}"
-    save_path = os.path.join(base_path,folder_name)
+    save_path = os.path.join(base_path,'crawling_data',folder_name)
     os.makedirs(save_path, exist_ok=True)
     
     # 2. 공홈 크롤링 링크
     url = 'https://df.nexon.com/world/fame'
-    for job_id, job_name in jobs_code:
+    for job_id, job_name in jobs_code[-1:]:
         
         # 3. 직업 별 검색 조건 설정
         driver = initialize_driver(url)
@@ -202,4 +203,4 @@ def run(start_fame):
     integrate_data(save_path,'character')
 
 # %% run code : 약 2시간 30분 소요
-run(61000)
+run(62000)
