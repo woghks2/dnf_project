@@ -14,8 +14,8 @@
     - github 링크에서 현재 사용하는 크롬 버전에 맞는 크롬 드라이버를 다운로드한다. (링크 복사 후 이동)
     - 크롬 드라이버가 깔려있는 파일 경로에 chromedriver.exe을 대체한다.
     
-    * https://velog.io/@syiee/Chrome-Web-Driver-%EC%B5%9C%EC%8B%A0-%EB%B2%84%EC%A0%84-%EC%84%A4%EC%B9%98-%EB%B0%A9%EB%B2%95-119
-    * https://github.com/GoogleChromeLabs/chrome-for-testing/blob/main/data/latest-versions-per-milestone-with-downloads.json
+    * https://velog.io/@syiee/Chrome-Web-Driver-%EC%B5%9C%EC%8B%A0-%EB%B2%84%EC%A0%84-%EC%84%A4%EC%B9%98-%EB%B0%A9%EB%B2%95-119 : 웹 드라이버 오류 내용
+    * https://github.com/GoogleChromeLabs/chrome-for-testing/blob/main/data/latest-versions-per-milestone-with-downloads.json : 웹 드라이버 다운로드
 
 2. 공식 홈페이지 크롤링 문제
 
@@ -26,11 +26,3 @@
     * https://dfmania.tistory.com/19 : HTML 사용
     * https://wikidocs.net/149358 : 셀레니움 사용법
     * https://www.codeit.kr/community/questions/UXVlc3Rpb246NjRkYTJhNmI4ZTViYmUzNDJhMjA5YjE4 : 웹 드라이버 버전 오류 해결
-
----
-
-## SUPERSET
-
-*
-*
-*
