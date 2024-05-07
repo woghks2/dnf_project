@@ -4,13 +4,14 @@ import requests
 import pprint
 from PIL import Image
 from io import BytesIO
+from config import API_KEY,BASE_PATH
 
 # %% [1] HTTP,API error check
 
 def error_check(fn):
-    def wrapper(*args, **kwargs):
+    def wrapper(*args,**kwargs):
         try:
-            result = fn(*args, **kwargs)
+            result = fn(*args,**kwargs)
             return result
         except Exception as e:
             error_reason = type(e).__name__
@@ -23,9 +24,11 @@ def error_check(fn):
 
 class DNFAPI:
 
+    # API 키 입력
     def __init__(self,api_key):
         self.api_key = api_key
 
+    # error에 맞는 메세지 출력
     def find_error(response):
         error_codes = {
             200: ("정상적인 응답", "정상적인 응답입니다."),
@@ -117,10 +120,6 @@ class DNFAPI:
 
     @error_check
     def get_character(self, serverId, characterName, jobId='', jobGrowId='', isAllJobGrow=False, wordType='match', limit=10, print_flag=False):
-        '''
-        Returns :
-        serverId, characterId, characterName, level, jobId, jobGrowId, jobName, jobGrowName, fame
-        '''
         url = f'https://api.neople.co.kr/df/servers/{serverId}/characters?characterName={characterName}&jobId={jobId}&jobGrowId={jobGrowId}&isAllJobGrow={isAllJobGrow}&limit={limit}&wordType={wordType}&apikey={self.api_key}'
         response = requests.get(url)
         if response.status_code == 200:
@@ -147,3 +146,23 @@ class DNFAPI:
             if print_flag:
                 pprint.pprint(timeline_info)
             return timeline_info
+
+    @error_check
+    def get_equipment(self, serverId, characterId, print_flag=False):
+        url = f'https://api.neople.co.kr/df/servers/{serverId}/characters/{characterId}/equip/equipment?apikey={self.api_key}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            equip_info = response.json()
+            if print_flag:
+                pprint.pprint(equip_info)
+            return equip_info
+        
+    @error_check
+    def get_creature(self, serverId, characterId, print_flag=False):
+        url = f'https://api.neople.co.kr/df/servers/{serverId}/characters/{characterId}/skill/buff/equip/creature?apikey={self.api_key}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            creature_info = response.json()
+            if print_flag:
+                pprint.pprint(creature_info)
+            return creature_info
