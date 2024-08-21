@@ -35,6 +35,7 @@ projdct
 │    └─ crawling_data : 공식 홈페이지에서 크롤링한 데이터를 저장합니다.
 │            └─ yyyymmdd
 │                   └─ job_name.csv
+│
 ├─ docs : 프로젝트 문서 및 참고 자료를 포함하는 디렉토리입니다.
 │
 ├─ out : 분석 결과 및 레포트가 포함된 Jupyter Notebook 파일이 저장됩니다.
