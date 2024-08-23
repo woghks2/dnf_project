@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
+from urllib import parse
 import time
 import pandas as pd
 
@@ -143,7 +144,7 @@ class DNF_DRIVER:
             
             # 캐릭터 이미지 코드, 캐릭터 이름, 직업명
             cha_img_code = character.dt['data-ch']
-            cha_name = character.dt['data-nm']
+            char_name = character.dt['data-nm']
             job_name = character.find('p', class_='job').get_text(strip=True)       
             
             # 명성, 레벨
@@ -154,10 +155,12 @@ class DNF_DRIVER:
             # 딕셔너리로 변경
             row = {'sv_kor': sv_kor,
                    'sv_eng': sv_eng,
+                   'char_name': char_name,
+                   'char_name_encoded': parse.quote(char_name),
                    'char_img': cha_img_code,
-                   'char_name': cha_name,
                    'job_name': job_name_fixed,
-                   'lv': int(lv[3:]), 'fame': fame}
+                   'lv': int(lv[3:]),
+                   'fame': fame}
                 # * 진각성을 하지 않고 만렙을 달성한 캐릭터들 다수 존재.
                 # job_name': job_name[:-len(sv_kor)].lstrip('眞 '),
             datas.append(row)
@@ -218,6 +221,17 @@ class DNF_DRIVER:
             
         # 구간 좁히면서 발생한 중복 데이터들 제거
         df = pd.DataFrame(result)
+        df = df.astype({
+                        'sv_kor': 'string',
+                        'sv_eng': 'string',
+                        'char_name': 'string',
+                        'char_name_encoded': 'string',
+                        'char_img': 'string',
+                        'job_name': 'string',
+                        'lv': 'int',
+                        'fame': 'int'
+                        })
+
         df = df[df['fame']>=min_fame].drop_duplicates(subset=['sv_eng','char_name'], keep='first')
         print(f'{job_group} : {job_name} 크롤링 완료')
         return df
