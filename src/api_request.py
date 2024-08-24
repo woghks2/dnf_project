@@ -7,7 +7,6 @@ from io import BytesIO
 import pandas as pd
 import requests
 import pprint
-from configs.config import API_KEY,PROJECT_PATH
 
 
 # %% [1] HTTP,API error check
@@ -26,7 +25,6 @@ def error_check(fn):
 
 # %% [2] Dataloader
 
-# todo : doc string 완성하기.
 class DNF_API:
     
     """
@@ -49,12 +47,12 @@ class DNF_API:
         - get_jobs : DB 업데이트 후 사용하지 않습니다.
     """     
     
-    # * 생성자 : 키 입력
-    def __init__(self):
-        self.api_key = API_KEY
+    # -> 각 API KEY 별로 부하를 낮추기 위해 여러개의 API KEY 사용
+    def __init__(self, api_key):
+        self.api_key = api_key
 
     # error에 맞는 메세지 출력
-    def find_error(response):
+    def find_error(self, response):
         error_codes = {
             200: ("정상적인 응답", "정상적인 응답입니다."),
             400: ("요청에 대한 유효성 검증 실패 또는 필수 파라미터 에러", "요청에 대한 유효성 검증 실패 또는 필수 파라미터 에러입니다."),
