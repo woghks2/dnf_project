@@ -5,7 +5,11 @@ PROJECT_PATH = "your_path\\dnf_project"
 DATA_PATH = "your_path\\dnf_project\\data"
 
 # ! API_KEY
-API_KEY = 'API키를 입력하세요'
+API_KEY1 = 'API키를 입력하세요'
+API_KEY2 = 'API키를 입력하세요'
+API_KEY3 = 'API키를 입력하세요'
+API_KEY4 = 'API키를 입력하세요'
+API_KEYS = [API_KEY1, API_KEY2, API_KEY3, API_KEY4]
 
 # ! MySQL config info
 MYSQL_CONFIGS = {
