@@ -7,7 +7,7 @@ from io import BytesIO
 import pandas as pd
 import requests
 import pprint
-
+from datetime import datetime, timedelta
 
 # %% [1] HTTP,API error check
 
@@ -207,7 +207,10 @@ class DNF_API:
             return img
 
     @error_check
-    def timeline(self, serverId, characterId, startDate, endDate, limit=10, code='', next='',print_flag=False):
+    def timeline(self, serverId, characterId, 
+                 startDate=(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d %H:%M'),
+                 endDate=datetime.now().strftime('%Y-%m-%d %H:%M'),
+                 limit=10, code='', next='', print_flag=False):
         """
         ### Summary
             - 요청한 캐릭터의 타임라인을 반환합니다.
