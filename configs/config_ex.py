@@ -5,11 +5,31 @@ PROJECT_PATH = "your_path\\dnf_project"
 DATA_PATH = "your_path\\dnf_project\\data"
 
 # ! API_KEY
-API_KEY1 = 'API키를 입력하세요'
-API_KEY2 = 'API키를 입력하세요'
-API_KEY3 = 'API키를 입력하세요'
-API_KEY4 = 'API키를 입력하세요'
-API_KEYS = [API_KEY1, API_KEY2, API_KEY3, API_KEY4]
+API_KEYS_DICT = {
+    # -> googld
+    'API_KEY1': 'API',
+    'API_KEY2': 'API',
+    'API_KEY3': 'API',
+    'API_KEY4': 'API',
+    'API_KEY5': 'API',
+    'API_KEY6': 'API',
+    'API_KEY7': 'API',
+    'API_KEY8': 'API',
+    'API_KEY9': 'API',
+    'API_KEY10': 'API',
+    # -> naver
+    'API_KEY11': 'API',
+    'API_KEY12': 'API',
+    'API_KEY13': 'API',
+    'API_KEY14': 'API',
+    'API_KEY15': 'API',
+    'API_KEY16': 'API',
+    'API_KEY17': 'API',
+    'API_KEY18': 'API',
+    'API_KEY19': 'API',
+    'API_KEY20': 'API'
+}
+API_KEYS = list(API_KEYS_DICT.values())
 
 # ! MySQL config info
 MYSQL_CONFIGS = {
