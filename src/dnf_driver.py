@@ -1,3 +1,4 @@
+from configs.config import CHROME_DRIVER_PATH
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
@@ -5,6 +6,7 @@ from bs4 import BeautifulSoup
 from urllib import parse
 import time
 import pandas as pd
+import os
 
 class DNF_DRIVER:
     
@@ -24,14 +26,14 @@ class DNF_DRIVER:
     
     def __init__(self):
         self.url = 'https://df.nexon.com/world/fame'
-        
+    
     def initialize_driver(self):
         
         """
         던전앤파이터 공식홈페이지 명성 검색 페이지를 실행합니다.
         """        
         # 1. 버전에 맞는 크롬 드라이버를 다운로드 후, 경로 지정
-        chrome_driver_path = 'C:/chromedriver/chromedriver.exe'
+        chrome_driver_path = os.path.join(CHROME_DRIVER_PATH,'chromedriver.exe')
         
         # 2. 크롬 드라이버 실행 시, 경로에 접근해서 버전에 맞는 드라이버 선택
         service = ChromeService(executable_path=chrome_driver_path)
