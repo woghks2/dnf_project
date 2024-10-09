@@ -1,4 +1,4 @@
-from configs.config import CHROME_DRIVER_PATH
+from configs.config import CHROME_DRIVER_PATH, CHROME_PATH, CHROME_DRIVER_DOWNLOAD_URL
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
@@ -7,6 +7,10 @@ from urllib import parse
 import time
 import pandas as pd
 import os
+import subprocess
+import requests
+import zipfile
+import re
 
 class DNF_DRIVER:
     
@@ -21,17 +25,61 @@ class DNF_DRIVER:
         - scrape : 검색 결과 HTML 스크랩
         - processing : 파싱한 데이터 전처리
         - crawling : 하나의 메서드로 통합하여 크롤링
-        
     """
     
     def __init__(self):
         self.url = 'https://df.nexon.com/world/fame'
     
+    def version_check(self):
+
+        """
+        ### Summary
+            - 크롬 드라이버 버전 체크 함수
+        """
+        
+        pattern = re.compile(r'^\d+\.\d+\.\d+\.\d+$')
+
+        # step 1 : CHROME_PATH 버전 확인하기
+        chrome_info = os.listdir(os.path.join(CHROME_PATH,'Application'))
+
+        # step 2 : CHROME_PATH 버전 확인하기
+        result = subprocess.run([os.path.join(CHROME_DRIVER_PATH,'chromedriver.exe'), '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        chrome_driver_info = result.stdout.strip().split()
+
+        # step 3 : 버전 추출
+        chrome_versions = [files.split('.') for files in chrome_info if pattern.match(files)][0]
+        chrome_driver_versions = [files.split('.') for files in chrome_driver_info if pattern.match(files)][0]
+        chrome_version, chrome_driver_version = chrome_versions[0], chrome_driver_versions[0]
+
+        # step 4 : 업데이트
+        if chrome_version != chrome_driver_version:
+
+            response = requests.get(CHROME_DRIVER_DOWNLOAD_URL)
+            if response.status_code == 200:
+                data = response.json()
+
+                download_url = data['milestones'][chrome_version]['downloads']['chromedriver'][-1]['url']
+
+                # step 5: 드라이버 다운로드 및 덮어쓰기
+                if download_url:
+                    download_path = os.path.join(os.path.expanduser("~"), 'Downloads', 'chromedriver.zip')
+                    with requests.get(download_url, stream=True) as r:
+                        with open(download_path, 'wb') as f:
+                            f.write(r.content)
+
+                    # 압축 풀기
+                    with zipfile.ZipFile(download_path, 'r') as zip_ref:
+                        zip_ref.extractall("C:\\")
+
+                    print(f"Chromedriver updated : {chrome_driver_version} -> {chrome_version}")
+    
     def initialize_driver(self):
         
         """
-        던전앤파이터 공식홈페이지 명성 검색 페이지를 실행합니다.
-        """        
+        ### Summary
+            - 크롬 드라이버 실행 함수
+        """
+        
         # 1. 버전에 맞는 크롬 드라이버를 다운로드 후, 경로 지정
         chrome_driver_path = os.path.join(CHROME_DRIVER_PATH,'chromedriver.exe')
         
@@ -127,7 +175,7 @@ class DNF_DRIVER:
         characters = article.find_all('dl')
         return characters
     
-    def processing(self, characters: list, job_name_fixed: str):
+    def processing(self, characters: list, job_group: str, job_name_fixed: str):
         
         """
         ### Summary
@@ -160,6 +208,7 @@ class DNF_DRIVER:
                    'char_name': char_name,
                    'char_name_encoded': parse.quote(char_name),
                    'char_img': cha_img_code,
+                   'job_group' : job_group,
                    'job_name': job_name_fixed,
                    'lv': int(lv[3:]),
                    'fame': fame}
@@ -201,6 +250,7 @@ class DNF_DRIVER:
         
         # * 웹드라이버 실행
         dnf = DNF_DRIVER()
+        dnf.version_check()
         dnf.initialize_driver()
         dnf.select_job(job_code)
 
@@ -215,7 +265,7 @@ class DNF_DRIVER:
                 continue
             
             # 가장 마지막으로 찾은 캐릭터 명성으로 명성구간 좁히기
-            datas, fame = dnf.processing(characters, job_name) # 데이터 파싱
+            datas, fame = dnf.processing(characters, job_group, job_name) # 데이터 파싱
             result.extend(datas)
             
             if fame < min_fame :
@@ -229,6 +279,7 @@ class DNF_DRIVER:
                         'char_name': 'string',
                         'char_name_encoded': 'string',
                         'char_img': 'string',
+                        'job_group' : 'string',
                         'job_name': 'string',
                         'lv': 'int',
                         'fame': 'int'
